@@ -160,7 +160,7 @@ let install ?(depopts="") ?(tests=false) args =
   let args = if tests then "-t" :: args else args in
 
   ?|  pre_install_hook;
-  ?|~ "opam install %s %s" pkg (ql args *~ " ");
+  ?|~ "function dirty_hack(){ EXIT_NUM=$? ; ls /home/opam/.opam/*/build/*/* ; cat /home/opam/.opam/*/build/*/* ; return ${EXIT_NUM} ; } ; opam install %s %s || dirty_hack" pkg (ql args *~ " ");
   ?|  post_install_hook;
 
   match extra_deps with
